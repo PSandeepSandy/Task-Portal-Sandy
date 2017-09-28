@@ -24,18 +24,26 @@
 		
 		<p>WELCOME <?php echo $_SESSION["fullname"]; ?></p>
 
-		<div id="content"></div>	
+		<div id="content">
+			
+		</div>
 
 	</div>
 
 	<script type="text/javascript">
-		$(document).ready(function(){})
+		$(document).ready(function() {
+			alert("Fuck Off");
+			var functionname = "alltasks";			
 			$.ajax({
-				url: "",
+				url: "stud-function-call.php",
 				type:"post",
-				
+				data:{func_name:functionname,parameter:<?php echo $_SESSION["userid"] ?>},
+				datatype:"html",
+				success:function(response){
+					$("#content").html(response);
+				}
 			});
-
+		});	
 	</script>
 		
 

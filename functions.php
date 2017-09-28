@@ -1,12 +1,21 @@
 <?php
-	require "conn.php";
+	require_once "conn.php";
 
 	class owntasks{
+
+		private $pdo;
+	
+		public function __construct()
+			{
+				$db = new databaseconnect ();
+				//$db = $databasedecl->dbConnection();
+				$this->pdo = $db;
+		    }
 		
-		public function completedtasks($studid){
+		public function alltasks($studid){
 			$status=1;		//Status is 1 for completed tasks and 0 for incomplete works....
-			$stmt=$pdo->prepare("select * from taskrecord WHERE Stud_id=? AND Status=?");
-			$stmt->execute([$studid,$status]);
+			$stmt=$this->pdo->prepare("select * from taskrecord WHERE Stud_id=:studid AND Status=:status");
+			$stmt->execute(['studid'=>$studid,'status'=>$status]);
 			if($stmt){
 				echo "<h2>Completed Tasks</h2>";
 				echo "<table id='completedtasks'>";	
@@ -19,12 +28,9 @@
 				}
 
 			}
-	
-		}
 
-		public function pendingtasks($studid){
 			$status=0;
-			$stmt=$pdo->prepare("select * from taskrecord WHERE Stud_id=? AND Status=?");
+			$stmt=$this->pdo->prepare("select * from taskrecord WHERE Stud_id=? AND Status=?");
 			$stmt->execute([$studid,$status]);
 			echo "<h2>Pending Tasks</h2>";
 			if($stmt){
@@ -40,7 +46,9 @@
 					echo "</tr>";
 				}		
 			}	
+	
 		}
-	}
 
+	}
+	
 ?>
